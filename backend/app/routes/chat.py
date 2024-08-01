@@ -1,9 +1,12 @@
 from fastapi import APIRouter
-from app.services.chat_service import process_chat
+from pydantic import BaseModel
 
 router = APIRouter()
 
+class Message(BaseModel):
+    message: str
+
 @router.post("/")
-def chat(message: str):
-    response = process_chat(message)
-    return {"response": response}
+async def send_message(message: Message):
+    # Process the message here
+    return {"response": f"Received: {message.message}"}
